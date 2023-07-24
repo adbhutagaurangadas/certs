@@ -28,7 +28,7 @@ RUN apk update && apk add \
     --install-dir=/usr/local/bin \
     && rm -rf /var/cache/apk/* \
 
-COPY ./fonts/* /usr/share/fonts
+COPY ./_docker/app/fonts/* /usr/share/fonts
 
 RUN apk --no-cache add msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
