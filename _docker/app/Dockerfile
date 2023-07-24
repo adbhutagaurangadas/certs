@@ -28,11 +28,12 @@ RUN apk update && apk add \
     --install-dir=/usr/local/bin \
     && rm -rf /var/cache/apk/* \
 
-COPY ./_docker/app/fonts/* /usr/share/fonts
-
 RUN apk --no-cache add msttcorefonts-installer fontconfig && \
-    update-ms-fonts && \
-    fc-cache -f
+    update-ms-fonts
+
+COPY ./_docker/app/fonts/* /usr/share/fonts/truetype
+
+RUN fc-cache -f
 
 COPY ./_docker/app/php.ini /usr/local/etc/php/conf.d/php.ini
 
