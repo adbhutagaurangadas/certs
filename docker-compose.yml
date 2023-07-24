@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  default:
+    name: proxy
+    external: true
+
+services:
+  nginx:
+    container_name: certs_nginx
+    image: nginx:1.25-alpine
+    environment:
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+    volumes:
+      - ./:/var/www/html
+      - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+
+  app:
+    container_name: certs_app
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+    volumes:
+      - ./:/var/www/html
