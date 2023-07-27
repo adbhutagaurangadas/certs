@@ -6,4 +6,5 @@ ISKCON Certificates
 2. git checkout this repo
 3. cp initial_templates templates
 4. cp .env.example .env (set your host)
-5. docker compose up -d
+5. chmod 777 public/results
+6. docker compose up -d
