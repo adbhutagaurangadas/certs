@@ -12,6 +12,19 @@ error_reporting(E_ALL);
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="jquery-3.7.0.min.js"></script>
         <script>
+var links = [];
+var id = null;
+function downloadAll() {
+  var link = document.createElement('a');
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  for (var i = 0; i < links.length; i++) {
+    link.setAttribute('download', links[i][2]);
+    link.setAttribute('href', 'results/' + id + '/' + links[i][2]);
+    link.click();
+  }
+  document.body.removeChild(link);
+}
 function submit() {
     var r = false;
     if(!$('#template').val()) {
@@ -35,6 +48,8 @@ function submit() {
     $('#submit-spinner').removeClass('d-none');
     $('#table').addClass('d-none');
     $('#table-body').html('');
+    links = [];
+    id = null;
     $.post('dl.php', {
         template: $('#template').val(),
         num: $('#num').val(),
@@ -46,10 +61,12 @@ function submit() {
         $('#submit-spinner').addClass('d-none');
         $('#table').removeClass('d-none');
         d = JSON.parse(data);
-        $('#zip').attr('href', 'zip.php?f='+d.f);
-        d.pdfs.forEach((v) => {
+        $('#zip').attr('href', 'javascript:downloadAll();');
+        links = d.pdfs;
+        id = d.f;
+        links.forEach((v) => {
             $('#table-body').html(function(idx, cur) {
-                return cur + '<tr><td>' + v[0] + '</td><td>' + v[1] + '</td><td class="dlpdf"><a href="' + v[2] + '" target="_blank">Открыть</a></td></tr>';
+                return cur + '<tr><td>' + v[0] + '</td><td>' + v[1] + '</td><td class="dlpdf"><a href="results/' + id + '/' + v[2] + '" target="_blank">Открыть</a></td></tr>';
             });
         });
     })
