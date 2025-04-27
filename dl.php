@@ -38,11 +38,11 @@ foreach(explode("\n", $_POST['students']) as $s) {
         $templateProcessor->setValue('teacher', $_POST['teacher']);
         $templateProcessor->setValue('signature', $_POST['signature'] ? $_POST['teacher'] : null);
         $templateProcessor->setValue('num', $_POST['num'] + $i);
-        $filepath = $templateProcessor->saveAs($dir.'/'.$d.'/'.($_POST['num']+$i).' - '.$s.'.docx');
-        $pdfpath = ($_POST['num']+$i).' - '.$s.'.pdf';
+        $filepath = $templateProcessor->saveAs($dir.'/'.$d.'/'.($_POST['num']+$i).' '.$s.'.docx');
+        $pdfpath = ($_POST['num']+$i).' '.$s.'.pdf';
 
-        exec('export HOME=/tmp && /usr/bin/soffice --convert-to pdf:"writer_pdf_Export:SelectPdfVersion=1" \''.$dir.'/'.$d.'/'.($_POST['num']+$i).' - '.$s.'.docx'.'\' --outdir '.$dir.'/'.$d);
-        unlink($dir.'/'.$d.'/'.($_POST['num']+$i).' - '.$s.'.docx');
+        exec('export HOME=/tmp && /usr/bin/soffice --convert-to pdf:"writer_pdf_Export:SelectPdfVersion=1" \''.$dir.'/'.$d.'/'.($_POST['num']+$i).' '.$s.'.docx'.'\' --outdir '.$dir.'/'.$d);
+        unlink($dir.'/'.$d.'/'.($_POST['num']+$i).' '.$s.'.docx');
         $pdfs[] = [$_POST['num']+$i, $s, $pdfpath];
         $i++;
     }
